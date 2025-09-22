@@ -1,28 +1,62 @@
-# 🚀 Mattermost Server on Docker (Self-hosted Slack Alternative)
+# 🚀 Mattermost Self-hosted Migration on Linux
 
 ## 📖 Overview
-في المشروع ده قمت بنشر **Mattermost server** باستخدام **Docker** على **Windows Server 2019** كبديل لـ Slack.  
-الهدف من الخطوة دي كان:
-- نوفر منصة تواصل داخلية **self-hosted**.
-- نضمن خصوصية البيانات (بدل ما تكون عند طرف خارجي).
-- نوفر التكلفة الشهرية اللي بتاخدها SaaS solutions زي Slack.
+في المشروع ده عملت Migration لـ **Mattermost server** على **Ubuntu 24.04 LTS** باستخدام **Docker**.  
+الغرض من المشروع كان نقل سيرفر التواصل الداخلي للشركة من بيئة قديمة لسيرفر جديد أكثر استقرارًا، مع الحفاظ على نفس الـ IP علشان المستخدمين ميحسوش بأي تغيير.
 
 ---
 
-## 🛠️ Tech Stack
-- **OS**: Windows Server 2019  
+## 🛠️ Environment
+- **OS**: Ubuntu 24.04 LTS  
 - **Containerization**: Docker + Docker Compose  
-- **App**: Mattermost Team Edition  
+- **App**: Mattermost (Team Edition)  
 
 ---
 
 ## ⚙️ Setup Steps
 
-### 1. Install Docker on Windows Server
-- نزل Docker Desktop أو Docker Engine.
-- فعل WSL2 لو السيرفر بيدعم.
-
-### 2. Clone the Repository
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/USERNAME/docker-mattermost-setup.git
-cd docker-mattermost-setup
+cd /home/itadmin/
+git clone https://github.com/mattermost/mattermost-docker.git
+cd mattermost-docker
+```
+
+### 2. Start Services
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+### 3. Configure Static IP
+```bash
+sudo nano /etc/netplan/01-netcfg.yaml
+sudo netplan apply
+```
+
+### 4. Verify Access
+```
+http://<server-ip>:8065
+```
+
+---
+
+## 🔑 Why Mattermost instead of Slack?
+- **Self-hosted** → تحكم كامل في الداتا.  
+- **Free & Open Source** → مفيش اشتراك شهري.  
+- **Integrations** → بيدعم Git, CI/CD tools, monitoring.  
+- **Customizable** → ينفع أعدل عليه بحرية.  
+
+---
+
+## 🛠️ Challenges Solved
+- مشكلة رفع الصور (storage permission) → اتظبطت.  
+- ظبط السيرفر بنفس الـ IP القديم → علشان المستخدمين ميحسوش بفرق.  
+- عملت system update علشان السيرفر يفضل stable.  
+
+---
+
+## 📸 Screenshots
+![Mattermost UI](images/mattermost-ui.png)
+
+---
