@@ -57,6 +57,7 @@ http://<server-ip>:8065
 ---
 
 ## 📸 Screenshots
-![Mattermost UI](images/mattermost-ui.png)
+![Mattermost UI](images/mattermost-ui.jpg)
+![Mattermost UI](images/docker.jpg)
 
 ---
